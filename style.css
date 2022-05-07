@@ -1,0 +1,160 @@
+html {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: system-ui;
+  font-size: 12px;
+  background: #444;  
+  color: #aaa;
+}
+
+#game_console {
+  width: 1200px;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  background:
+/*     linear-gradient(to bottom, transparent 0% 65%, #333 65%, gray), */
+    url('https://cdn.discordapp.com/attachments/492131244587483138/972301155331874876/6b0d2b5f44164f19434d8c93806b4b6f2.jpg');
+  background-blend-mode: overlay;
+  background-size: 110% 110%;
+  background-position: 0% 100%;
+  image-rendering: pixelated;  
+  overflow: hidden;
+  box-shadow: 0 10px 15px rgba(0,0,0,.5);
+}
+
+#player {
+  width: 100px;
+  aspect-ratio: 1 / 2;
+  position: absolute;  
+  background-repeat: repeat-x;
+  background-size: 400% 100%;
+  image-rendering: pixelated; 
+  z-index: 100;
+  pointer-events: none;
+/*   filter: hue-rotate(45deg); */
+}
+#player:before {
+  content:'';
+  width: 100%;
+  height: 10%;
+  background: black;
+  position: absolute;
+  top: 90%;
+  left: 0;
+  border-radius: 50%;
+  z-index: -1;
+  opacity: .5;
+  filter: blur(3px);
+}
+
+#player_hit_box {
+  width: 25px ;
+  aspect-ratio: 1 / 1;
+  /*   background: red; */
+  border-radius: 50%;
+  position: absolute;
+  left: 100%;
+  top: 40%;
+  transform: translateX(-50%);  
+}
+
+.player_idle {
+  background: var(--player-idle);
+  animation: idle 1s steps(3) infinite;
+}
+@keyframes idle {
+  100% { background-position: -300% 0; }
+}
+
+.player_run {
+  background: var(--player-run);
+  animation: idle 1s steps(3) infinite;
+}
+
+.player_jump_kick {
+  background: var(--player-jump-kick);
+  background-position: -200% 0;
+  animation: none !important;
+}
+
+.player_kick {
+  background: var(--player-kick);
+  background-size: 100% 100% !important;
+  animation: none !important;
+}
+
+.player_punch {
+  background: var(--player-punch);
+  background-size: 100% 100% !important;
+  animation: none !important;
+}
+
+.enemy {
+  width: 150px;
+  aspect-ratio: 1 / 1;
+  background: var(--box);
+  background-size: 100% 100%;
+  image-rendering: pixelated; 
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  z-index: 50;
+}
+.enemy:before {
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 100% 100%, transparent 45%, #420 50%);
+  position: absolute;
+  top: -113%;
+  left: 0;
+  transform: rotate(45deg);
+  border-radius: 100% 0 0 0;
+  border-right: 2px solid #420;
+  border-bottom: 2px solid #420;
+  animation: fade 4s linear forwards;
+}
+@keyframes fade {
+  95% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.boxShadow {
+  transform: scale(3);
+  opacity: 0;
+  animation: fadein 3s linear forwards;
+}
+@keyframes fadein {
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.shakeIt{
+  animation: shakeit .1s linear infinite;
+}
+@keyframes shakeit {
+  25% { transform: rotate(1deg); }
+  75% { transform: rotate(-1deg); }
+}
+.particle {
+  width: 50%;
+  height: 50%;
+  position: absolute;
+  border-radius: 50%;
+  left: 100%;
+  top; 50%;
+}
+
+:root{
+  --player-idle: url('https://cdn.discordapp.com/attachments/492131244587483138/972280446329188352/download_1.png');
+  --player-run: url('https://cdn.discordapp.com/attachments/492131244587483138/972283072345165954/download_2_1.png');
+  --player-punch: url('https://cdn.discordapp.com/attachments/492131244587483138/972284455374950471/download_3_1.png');
+  --player-kick: url('https://cdn.discordapp.com/attachments/492131244587483138/972285381825404978/download_4_1.png');
+  --player-jump-kick: url('https://cdn.discordapp.com/attachments/492131244587483138/972297615154745344/download_5_2.png');
+  --box:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABDBJREFUeNrsW01PE0EYnv1qt6VA4kXjT/GkF2M0UbCSCMRAhF/gxcQDMR5MPOjFqwcMkUSMAWMkRi/8JBOQj0K77rPt1O2yndn52Nml9CVA6IbsvO/zzPs5Q8hYxjKWyywW49nNEdd9Dz/sy84AN/nBxsuFoOZ7xHNsYtsWhyQXQQLS6QSkHX4fnZySxbVPt5gGgPLTEz6peA5xbJtYlnXB1e8a4KzdCfWx+AwA8lDec50RcXIWsR2LuGC0VTv3/JwPAO2B/CgKgOUyILIZg/Yv3qyXWsnXz5fVnGDmvRVgf5Unjsu6KlfGwgeHJ2Rz82upkF9YaJJGvSr8f1KbPSgh9WXXxGXAq3cfo99rz5b6n/kVlzTnHpD9kAm/fvwsVPHb9+6QyRD5WtXjrltpC4D2QU95JwwpjVo1iq9FC9YxFeYtCHO5MOD4NIgc3of1L9HfTxZno5dGRggtP9u8Tw6OWuTbzq5RxWdm70brmG74AzmLaJRyRfcXaA/kobzbM0JQEPJJ5ZNRCoK12ralLwrsbHeRXpyf6RsBexB/m2ACD/mgp/y1qa5qf49b0fq05wFQFi+bNMwEFvJBPz/5vxLUAEpbwPcsAl9Xrww6md+7Xe8PH5DGBPpcp7dPU556+2q4Tih/fdpLbIWuDxuWKLmqCzPFhEzIB+JvVjbAMCbQ6KDKBB7yVPkk8sYMkDcTVJHnkSJTHgAfcNhiOxPq/ZPRQTZPEPX2vPXlzgDdTBD19rKi3QDDmJA1TxBFvnQGYDGhTMgr5wEy0aHByBNk43xpGRBnQoRsqDwUQ+WW1nIDU/BMd5wv3ABxJlAFgfLj+Yf9chrFSt2vDJS0uuJ84QaIMwHIU4pnabvnibz2PCBrdHi69IipvO44n0tPUEWydpF0e/vCt4CI6IzzpWMAqztThOSWB6RVdQh18PYswdzhz/4R2fq8PVoMEOnempxI577ReBkelXj/vu57xuYOrgnks3RvQXsgD+VNzh1yywNEq7r1je6s0fTcwS0CeVZVZ3ruoN0AqvW86bmDWxbk8+osGcsDdNfzpuYOrlHkJaq6vJmgbIC8+/Z5zx3csiJvignSeYCpvn2yn6Br7qDMANPdW1km8MqKTAawNMZ5VVGdOygzIFP31kAnR3buIJUHQFaX56IX4jRWWvc2r769SHSgcwecCqFVJAos1jbIzACWhU10b1lMoOtLmzs4nA7Uuaff364EV6bqXOdhqm+fVeJzh3anQ45bZ9HnE35loA13Y/U9vS+wpyUPKAr5pID2onMHKQPEz+FB76s59+2zCq0iV0JfJXLXYXxnKM2l4csaclcofh4fjQtQD0fR4tvA1I6I+ynQHw5vgtN15hoASkWnKx1+ZxbOhR5CLNoNaLsv0O5dMBI9fHyB7lbtMQ2Aq2WgEi4Ypd2xGctYRkv+CTAAmy9vSBc3+H0AAAAASUVORK5CYII=');
+}
